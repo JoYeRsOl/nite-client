@@ -1,0 +1,46 @@
+.html {
+    --color-neutral-50: #F4F4F4;
+    --color-neutral-100: #C6C6C8;
+    --color-neutral-200: #9D9DA0;
+    --color-neutral-300: #717275;
+    --color-neutral-400: #46474B;
+    --color-neutral-500: #363945;
+    --color-neutral-600: #1A1C21;
+    --color-neutral-700: #15161A;
+    --color-neutral-800: #101114;
+    --color-neutral-900: #0A0B0D;
+    --color-neutral-950: #050607;
+
+    --color-primary-50: #F5F9FC;
+    --color-primary-100: #CCE1EF;
+    --color-primary-200: #A6CCE3;
+    --color-primary-300: #7FB5D7;
+    --color-primary-400: #589FCA;
+    --color-primary-500: #3188BE;
+    --color-primary-600: #276D98;
+    --color-primary-700: #1D5272;
+    --color-primary-800: #14364C;
+    --color-primary-900: #0A1B26;
+    --color-primary-950: #030C12;
+    
+    display: flex;
+    height: 100%;
+    width: 100%;
+}
+
+.body {
+    background: var(--color-neutral-800);
+    height: 100%;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+
+.primary {
+    display: flex;
+    width: 50%;
+    height: 100%;
+    min-width: 448px;
+    max-width: 1440px;
+}

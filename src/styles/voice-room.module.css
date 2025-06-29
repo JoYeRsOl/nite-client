@@ -1,0 +1,40 @@
+.voiceRoom {
+    width: 100%;
+    height: 100%;
+    background: var(--color-neutral-900);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 8px;
+}
+
+
+.videoFrame {
+    flex: greed;
+    height: 100%;
+    display: grid;
+    grid-template-columns: repeat(auto-fit);
+    flex-direction: column;
+    justify-content: space-evenly;
+    gap: 16px;
+    padding: 8px;
+}
+
+
+.videoFeed {
+    flex: 1;
+    aspect-ratio: 16/9;
+    background: var(--color-neutral-950);
+}
+
+
+.voiceRoomActionBar {
+    width: 100%;
+    height: fit-content;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 8px;
+}

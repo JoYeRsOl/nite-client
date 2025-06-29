@@ -33,15 +33,16 @@
     ]
   },
   "include": [
-    "src/app",
-    ".next/types/**/*.ts",
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
     "**/**/*.ts",
     "**/**/*.tsx",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
     ".ts",
-    "<path-to-your-source>.tsx"
+    "<path-to-your-source>.tsx",
+    "next-env.d.ts",
+    "src/app",
+    "dist/types/**/*.ts"
   ],
   "exclude": [
     "node_modules"
