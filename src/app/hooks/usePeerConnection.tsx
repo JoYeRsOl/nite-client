@@ -1,14 +1,14 @@
 import { useMemo, useState } from 'react';
-import { socket } from './socket';
-import { useParams } from 'react-router-dom';
+import { socket } from '../socket';
 
-export function usePeerConnection(localStream: MediaStream) {
-    const { roomName } = useParams();
-    const [guestStream, setGuestStream] = useState<MediaStream | null>(null);
+export function usePeerConnection(props: { localStream: MediaStream, roomName?: string }) {
+    const { roomName, localStream } = props;
+
+    const [guestStream, setGuestStream] = useState<MediaStream>();
 
     const peerConnection = useMemo(() => {
         const connection = new RTCPeerConnection({
-            iceServers: [{ urls: 'stun:stun2.1.google.com:19302' }],
+            iceServers: [{ urls: 'stun:stun1.l.google.com:19302' }],
         });
 
         connection.addEventListener('icecandidate', ({ candidate }) => {
@@ -22,6 +22,9 @@ export function usePeerConnection(localStream: MediaStream) {
         localStream.getTracks().forEach((track) => {
             connection.addTrack(track, localStream);
         });
+
+        connection.addTransceiver('video', { direction: 'sendrecv' })
+        connection.addTransceiver('audio', { direction: 'sendrecv' })
 
         return connection;
     }, [localStream, roomName]);

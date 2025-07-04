@@ -1,19 +1,22 @@
 import { useCallback } from 'react';
-import { socket } from './socket';
-import { useParams } from 'react-router-dom';
+import { socket } from '../socket';
 
-export function useSendingAnswer(peerConnection: RTCPeerConnection) {
-    const { roomName } = useParams();
+export function useSendingAnswer(props: { peerConnection?: RTCPeerConnection, roomName?: string }) {
+    const { peerConnection, roomName } = props
 
     const handleConnectionOffer = useCallback(
         async ({ offer }: { offer: RTCSessionDescriptionInit }) => {
+            if (!peerConnection || !roomName) {
+                return
+            }
+
             await peerConnection.setRemoteDescription(offer);
             const answer = await peerConnection.createAnswer();
             await peerConnection.setLocalDescription(answer);
 
             socket.emit('answer', { answer, roomName });
         },
-        [roomName],
+        [roomName, peerConnection],
     );
 
     return {

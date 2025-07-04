@@ -1,5 +1,11 @@
+"use client"
+
 import React from "react";
+import { VideoChatRoom } from "./VideoChatRoom";
+import { useLocalCameraStream } from "./hooks/useLocalCameraStream";
 
 export default function Page() {
-    return <h1>Hello, Next.js!</h1>
+    const { localStream } = useLocalCameraStream();
+
+    return <VideoChatRoom localStream={localStream}></VideoChatRoom>
 }
