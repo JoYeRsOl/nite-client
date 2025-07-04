@@ -1,5 +1,29 @@
+import { io, Socket } from 'socket.io-client';
 
-import { io } from 'socket.io-client';
-export const socket = io('https://623c-194-26-211-118.ngrok-free.app', {
-    autoConnect: false,
-});
+export let socket: Socket
+
+export function connectSocket() {
+    if (!socket) {
+        console.log('Socket not initialized, cannot connect')
+        return
+    }
+
+    if (!socket.connected) {
+        socket.connect()
+    }
+}
+
+export function updateSocket(url: string) {
+    socket = io(url, {
+        autoConnect: false,
+        extraHeaders: {
+            ['ngrok-skip-browser-warning']: '123',
+        }
+    })
+
+    socket.on("connect_error", (err) => {
+        console.log(`connect_error due to ${err.message}`);
+        console.log(`connect_error due to ${err.name}`);
+        console.log(`connect_error due to ${err.stack}`);
+    });
+}

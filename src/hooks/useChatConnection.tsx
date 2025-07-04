@@ -1,16 +1,18 @@
-import { useParams } from 'react-router-dom';
+"use client"
+
 import { useCallback, useEffect } from 'react';
-import { socket } from './socket';
 import { useOfferSending } from './useOfferSending';
 import { useSendingAnswer } from './useSendingAnswer';
 import { useAnswerProcessing } from './useAnswerProcessing';
+import { connectSocket, socket } from 'app/socket';
 
-export function useChatConnection(peerConnection: RTCPeerConnection) {
-    const { roomName } = useParams();
+export function useChatConnection(props: { peerConnection?: RTCPeerConnection, roomName?: string }) {
+    const { peerConnection, roomName } = props
+    console.log(`useChatConnection:${roomName}:${peerConnection}`)
 
-    const { sendOffer } = useOfferSending(peerConnection);
+    const { sendOffer } = useOfferSending({ peerConnection, roomName });
 
-    const { handleConnectionOffer } = useSendingAnswer(peerConnection);
+    const { handleConnectionOffer } = useSendingAnswer({ peerConnection, roomName });
 
     const { handleOfferAnswer } = useAnswerProcessing(peerConnection);
 
@@ -20,13 +22,18 @@ export function useChatConnection(peerConnection: RTCPeerConnection) {
 
     const handleReceiveCandidate = useCallback(
         ({ candidate }: { candidate: RTCIceCandidate }) => {
+            if (!peerConnection) {
+                return
+            }
+
             peerConnection.addIceCandidate(candidate);
         },
         [peerConnection],
     );
 
     useEffect(() => {
-        socket.connect();
+        if (!socket || !peerConnection) { return }
+        connectSocket()
         socket.on('answer', handleOfferAnswer);
         socket.on('send_connection_offer', handleConnectionOffer);
         socket.on('another_person_ready', sendOffer);
@@ -42,7 +49,6 @@ export function useChatConnection(peerConnection: RTCPeerConnection) {
     }, [
         roomName,
         handleConnection,
-        roomName,
         handleConnectionOffer,
         handleOfferAnswer,
         sendOffer,
