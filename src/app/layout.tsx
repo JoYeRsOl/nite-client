@@ -1,4 +1,5 @@
 import React from "react"
+import styles from '../styles/primary.module.css'
 
 export default function RootLayout({
     children,
@@ -6,8 +7,8 @@ export default function RootLayout({
     children: React.ReactNode
 }) {
     return (
-        <html lang="en">
-            <body>{children}</body>
+        <html className={styles.html} lang="en">
+            <body className={styles.body}>{children}</body>
         </html>
     )
 }
