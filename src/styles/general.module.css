@@ -1,0 +1,6 @@
+.label {
+    display: block;
+    font: 14px;
+    color: var(--color-neutral-300);
+    margin: 4 4;
+}

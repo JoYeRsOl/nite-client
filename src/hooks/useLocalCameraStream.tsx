@@ -5,7 +5,7 @@ export function useLocalCameraStream() {
 
     useEffect(() => {
         navigator.mediaDevices
-            .getUserMedia({ video: { height: 100, width: 100 }, audio: true })
+            .getUserMedia({ video: true, audio: false })
             .then((stream) => {
                 setLocalStream(stream);
             });
