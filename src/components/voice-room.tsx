@@ -6,26 +6,23 @@ import ToggleButton from './toggle-button'
 import { ToogleButtonIcon } from '../common/toggle-button.enum'
 import { updateSocket } from "app/socket";
 import { useChatConnection, usePeerConnection } from "hooks";
-import { RoomProperties } from "./room-properies";
+import { useSearchParams } from "next/navigation";
 
 export function VoiceRoom({ localStream }: { localStream?: MediaStream }) {
-    const [roomName, setRoomName] = useState<string>('')
-    const [serverUrl, setServerUrl] = useState<string>('localhost:3333')
-    const [connectReady, setConnectReady] = useState<boolean>(false)
+    const searchParams = useSearchParams()
+
+    const roomName = searchParams.get('roomName') || ''
+    const serverUrl = searchParams.get('serverUrl') || ''
+
     const [isConnected, setIsConnected] = useState<boolean>(false)
 
-    console.log('roomName', roomName)
-    console.log('serverUrl', serverUrl)
-    console.log('connectReady', connectReady)
     console.log('isConnected', isConnected)
 
     useEffect(() => {
-        if (serverUrl) {
-            updateSocket(serverUrl)
-        }
-    }, [serverUrl])
+        updateSocket(serverUrl)
+    })
 
-    const connectionResult = usePeerConnection({ localStream, roomName, connectReady })
+    const connectionResult = usePeerConnection({ localStream, roomName })
     useChatConnection({ peerConnection: connectionResult.peerConnection, roomName })
 
     useEffect(() => {
@@ -41,13 +38,6 @@ export function VoiceRoom({ localStream }: { localStream?: MediaStream }) {
         }
     }, [connectionResult.peerConnection])
 
-    const handleConnect = () => {
-        if (roomName.trim()) {
-            setConnectReady(true)
-        } else {
-            alert('Please enter a room name')
-        }
-    }
     const streams = []
 
     if (localStream) {
@@ -63,9 +53,8 @@ export function VoiceRoom({ localStream }: { localStream?: MediaStream }) {
             isMuted: false
         })
     }
-    
+
     return <div className={styles.voiceRoom} >
-        <RoomProperties serverUrl={serverUrl} roomName={roomName} setServerUrl={setServerUrl} setRoomName={setRoomName} handleConnect={handleConnect} connectReady={connectReady}/>
         <VideoFrame streams={streams} />
         <VoiceRoomActionBar />
     </div>

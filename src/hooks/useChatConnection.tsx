@@ -6,7 +6,7 @@ import { useSendingAnswer } from './useSendingAnswer';
 import { useAnswerProcessing } from './useAnswerProcessing';
 import { connectSocket, socket } from 'app/socket';
 
-export function useChatConnection(props: { peerConnection?: RTCPeerConnection, roomName?: string }) {
+export function useChatConnection(props: { peerConnection?: RTCPeerConnection, roomName: string }) {
     const { peerConnection, roomName } = props
     console.log(`useChatConnection:${roomName}:${peerConnection}`)
 

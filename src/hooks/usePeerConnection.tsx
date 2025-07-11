@@ -1,12 +1,12 @@
 import { socket } from 'app/socket';
 import { useMemo, useState } from 'react';
 
-export function usePeerConnection(props: { localStream?: MediaStream, roomName?: string, connectReady: boolean }) {
-    const { roomName, localStream, connectReady } = props;
+export function usePeerConnection(props: { localStream?: MediaStream, roomName: string }) {
+    const { roomName, localStream } = props;
 
     const [guestStream, setGuestStream] = useState<MediaStream>();
     const peerConnection = useMemo(() => {
-        if (localStream && roomName && connectReady) {
+        if (localStream && roomName) {
             const connection = new RTCPeerConnection({
                 iceServers: [{ urls: 'stun:stun2.1.google.com:19302' }],
             });
@@ -40,7 +40,7 @@ export function usePeerConnection(props: { localStream?: MediaStream, roomName?:
             return connection;
         }
         return undefined;
-    }, [localStream, roomName, connectReady]);
+    }, [localStream]);
 
     return {
         peerConnection,
