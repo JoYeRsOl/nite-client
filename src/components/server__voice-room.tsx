@@ -2,7 +2,7 @@
 import React, { useEffect, useRef, useState } from "react";
 // import styles from '../styles/primary.module.css'
 import styles from '../styles/voice-room.module.css'
-import ToggleButton from './toggle-button'
+import ToggleButton from './server__voice-room__toggle-button'
 import { ToogleButtonIcon } from '../common/toggle-button.enum'
 import { updateSocket } from "app/socket";
 import { useChatConnection, usePeerConnection } from "hooks";

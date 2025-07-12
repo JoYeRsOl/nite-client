@@ -1,6 +1,6 @@
 .toggleButton {
     border-radius: 8px;
-    background: var(--color-neutral-700);
+    background: var(--neutral-700);
     display: inline-flex;
     padding: 4px;
     align-items: center;

@@ -1,13 +1,12 @@
 'use client'
 
-import styles from '../styles/toggle-button.module.css'
+import styles from '../styles/voice-room__toggle-button.module.css'
 import Image from 'next/image'
 import { useState, useEffect } from 'react'
 import { ToogleButtonIcon, toggleButtonOffIconMap, toggleButtonOnIconMap } from '../common/toggle-button.enum'
 
 export default function ToogleButton(props: { icon: ToogleButtonIcon }) {
     const { icon } = props
-
     const [buttonIcon, setIcon] = useState(toggleButtonOnIconMap[icon])
     const [state, setState] = useState(true)
 

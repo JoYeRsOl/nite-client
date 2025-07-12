@@ -1,9 +1,9 @@
 'use client'
 
-import React from "react";
+import React from "react"
 import styles from '../../styles/server-page.module.css'
-import { VoiceRoom } from '../../components/voice-room'
-import { useLocalCameraStream } from "hooks";
+import { VoiceRoom } from '../../components/server__voice-room'
+import { useLocalCameraStream } from "hooks"
 
 export default function Page() {
     const { localStream } = useLocalCameraStream();
