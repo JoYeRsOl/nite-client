@@ -2,8 +2,8 @@
 
 import React, { useState } from "react";
 import { RoomProperties } from "@/components";
-import styles__typography from "../styles/typography.module.css"
-import styles__main from "../styles/main.module.css"
+import styles__typography from "@/styles/typography.module.css"
+import styles__main from "@/styles/main.module.css"
 
 export default function Page() {
     const [roomName, setRoomName] = useState<string>('')

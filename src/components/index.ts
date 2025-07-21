@@ -1,4 +1,4 @@
-export * from './room-properies';
+export * from './server-properties';
 export * from './toggle-button-end-call';
 export * from './toggle-button-sound';
 export * from './toggle-button-webcamera';
