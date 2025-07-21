@@ -1,0 +1,41 @@
+.roomProperties {
+    display: flex;
+    flex-direction: column;
+    width: 332px;
+    height: fit-content;
+    gap: 16px;
+    margin: auto;
+}
+
+.input {
+    display: block;
+    padding: 12px 8px;
+    background: var(--neutral-700);
+    border-radius: 4px;
+    font: 16px;
+    line-height: 24px;
+    color: var(--neutral-400);
+    border: none;
+}
+
+.label {
+    color: var(--neutral-300, #686E7A);
+    font-family: Inter;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 24px; /* 150% */
+}
+
+.link {
+    display: inline-block;
+    padding: 8px 16px;
+    flex: 1;
+    text-align: center;
+    color: var(--primary-50);
+    font-size: 16px;
+    line-height: 24px;
+    text-decoration-line: none;
+    background-color: var(--primary-500);
+    border-radius: 4px;
+}
