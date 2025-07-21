@@ -1,4 +1,4 @@
-import styles from '../styles/room-properties.module.css'
+import styles from '@/styles/room-properties.module.css'
 
 export function RoomProperties(props: { serverUrl: string, roomName: string, setServerUrl: Function, setRoomName: Function }) {
     const { roomName, serverUrl, setRoomName, setServerUrl } = props

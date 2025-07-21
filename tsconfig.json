@@ -17,6 +17,20 @@
     "isolatedModules": true,
     "noEmit": true,
     "baseUrl": "src/",
+    "paths": {
+      "@/styles/*": [
+        "styles/*"
+      ],
+      "@/components": [
+        "components/index"
+      ],
+      "@/hooks": [
+        "hooks/index"
+      ],
+      "@/common": [
+        "common/index"
+      ],
+    },
     "jsx": "preserve",
     /* Linting */
     "strict": true,

@@ -1,10 +1,8 @@
-"use client"
-
 import { useCallback, useEffect } from 'react';
 import { useOfferSending } from './useOfferSending';
 import { useSendingAnswer } from './useSendingAnswer';
 import { useAnswerProcessing } from './useAnswerProcessing';
-import { connectSocket, socket } from 'app/socket';
+import { connectSocket, socket } from '@/common';
 
 export function useChatConnection(props: { peerConnection?: RTCPeerConnection, roomName: string }) {
     const { peerConnection, roomName } = props

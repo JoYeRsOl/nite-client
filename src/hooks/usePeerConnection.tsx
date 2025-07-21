@@ -1,4 +1,4 @@
-import { socket } from 'app/socket';
+import { socket } from '@/common';
 import { useMemo, useState } from 'react';
 
 export function usePeerConnection(props: { localStream?: MediaStream, roomName: string }) {
@@ -6,7 +6,7 @@ export function usePeerConnection(props: { localStream?: MediaStream, roomName: 
 
     const [guestStream, setGuestStream] = useState<MediaStream>();
     const peerConnection = useMemo(() => {
-        if (localStream && roomName) {
+        if (localStream) {
             const connection = new RTCPeerConnection({
                 iceServers: [{ urls: 'stun:stun2.1.google.com:19302' }],
             });

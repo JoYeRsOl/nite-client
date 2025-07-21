@@ -1,42 +1,76 @@
 'use client'
-import React, { useEffect, useRef, useState } from "react";
-// import styles from '../styles/primary.module.css'
-import styles from '../styles/voice-room.module.css'
-import ToggleButton from './toggle-button'
-import { ToogleButtonIcon } from '../common/toggle-button.enum'
-import { updateSocket } from "app/socket";
-import { useChatConnection, usePeerConnection } from "hooks";
+import React, { createContext, useEffect, useState } from "react";
+import styles from '@/styles/voice-room.module.css'
+import { closeSocket, updateSocket } from "@/common";
+import { useChatConnection, usePeerConnection } from "@/hooks";
 import { useSearchParams } from "next/navigation";
+import { ToggleButtonEndCall } from "./toggle-button-end-call";
+import { ToggleButtonWebcamera } from "./toggle-button-webcamera";
+import { ToggleButtonMicrophone } from "./toogle-button-microphone";
+import { ToggleButtonSound } from "./toggle-button-sound";
+import { VideoFrame } from "./video-frame";
+
+interface VoiceRoomContextInterface {
+    soundMuted: boolean
+    microphoneMuted: boolean
+    video: boolean
+}
+
+interface ContextState<T> {
+    context: T
+    setState: React.Dispatch<React.SetStateAction<T>>
+}
+
+export const defaultVoiceRoomContext = {
+    microphoneMuted: false,
+    soundMuted: false,
+    video: true
+}
+
+export const VoiceRoomContext = createContext<ContextState<VoiceRoomContextInterface>>({
+    context: defaultVoiceRoomContext,
+    setState: () => { }
+})
 
 export function VoiceRoom({ localStream }: { localStream?: MediaStream }) {
+    const [voiceRoomContext, setVoiceRoomContext] = useState<VoiceRoomContextInterface>(defaultVoiceRoomContext)
+
     const searchParams = useSearchParams()
 
     const roomName = searchParams.get('roomName') || ''
     const serverUrl = searchParams.get('serverUrl') || ''
 
-    const [isConnected, setIsConnected] = useState<boolean>(false)
-
-    console.log('isConnected', isConnected)
-
     useEffect(() => {
         updateSocket(serverUrl)
+
+        return () => {
+            closeSocket()
+        }
     })
 
     const connectionResult = usePeerConnection({ localStream, roomName })
     useChatConnection({ peerConnection: connectionResult.peerConnection, roomName })
 
     useEffect(() => {
-        if (connectionResult.peerConnection) {
-            const handleConnectionStateChange = () => {
-                setIsConnected(connectionResult.peerConnection!.connectionState === 'connected')
-            }
-
-            connectionResult.peerConnection.addEventListener('connectionstatechange', handleConnectionStateChange)
-            return () => {
-                connectionResult.peerConnection?.removeEventListener('connectionstatechange', handleConnectionStateChange)
-            }
+        if (localStream) {
+            const audioTrack = localStream.getAudioTracks()[0]
+            audioTrack.enabled = voiceRoomContext.microphoneMuted
         }
-    }, [connectionResult.peerConnection])
+    }, [voiceRoomContext.microphoneMuted])
+
+    useEffect(() => {
+        if (connectionResult.guestStream) {
+            const audioTrack = connectionResult.guestStream.getAudioTracks()[0]
+            audioTrack.enabled = voiceRoomContext.microphoneMuted
+        }
+    }, [voiceRoomContext.soundMuted])
+
+    useEffect(() => {
+        if (localStream) {
+            const videoTrack = localStream.getVideoTracks()[0]
+            videoTrack.enabled = voiceRoomContext.video
+        }
+    }, [voiceRoomContext.video])
 
     const streams = []
 
@@ -55,75 +89,29 @@ export function VoiceRoom({ localStream }: { localStream?: MediaStream }) {
     }
 
     return <div className={styles.voiceRoom} >
-        <VideoFrame streams={streams} />
-        <VoiceRoomActionBar />
+        <VoiceRoomContext.Provider value={{ context: voiceRoomContext, setState: setVoiceRoomContext }}>
+            <VideoFrame streams={streams} />
+            <VoiceRoomActionBar />
+        </VoiceRoomContext.Provider>
     </div>
 }
-
-
-interface VideoFrameProps {
-    streams: {
-        mediaStream: MediaStream
-        isMuted?: boolean
-    }[]
-}
-
-
-function VideoFrame({ streams }: VideoFrameProps) {
-    return <div className={styles.videoFrame}>
-        {streams.map((stream) => (<VideoFeed mediaStream={stream.mediaStream} isMuted={stream.isMuted} />))}
-    </div>
-}
-
 
 function VoiceRoomActionBar() {
     return <div className={styles.voiceRoomActionBar}>
-        <ToogleButtonMicrophone />
-        <ToogleButtonSound />
-        <ToogleButtonWebcamera />
-        <ToogleButtonEndCall />
+        <ToggleButtonMicrophone />
+        <ToggleButtonSound />
+        <ToggleButtonWebcamera />
+        <ToggleButtonEndCall />
     </div>
 }
 
 
-function VideoFeed({ mediaStream, isMuted = false }: { mediaStream: MediaStream, isMuted?: boolean }) {
-    const videoRef = useRef<HTMLVideoElement>(null);
-
-    useEffect(() => {
-        if (videoRef.current && mediaStream) {
-            videoRef.current.srcObject = mediaStream;
-        }
-    }, [mediaStream]);
-
-    return (
-        <div className={styles.videoFeed}>
-            <video
-                className={styles.video}
-                ref={videoRef}
-                autoPlay={true}
-                playsInline={true}
-                muted={isMuted}
-            />
-        </div>
-    );
-}
 
 
-function ToogleButtonMicrophone() {
-    return <ToggleButton icon={ToogleButtonIcon.Microphone} />
-}
 
 
-function ToogleButtonSound() {
-    return <ToggleButton icon={ToogleButtonIcon.Sound} />
-}
 
 
-function ToogleButtonWebcamera() {
-    return <ToggleButton icon={ToogleButtonIcon.Camera} />
-}
 
 
-function ToogleButtonEndCall() {
-    return <ToggleButton icon={ToogleButtonIcon.Call} />
-}
+

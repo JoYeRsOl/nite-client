@@ -26,6 +26,12 @@
       "regex": "^/_not\\-found(?:/)?$",
       "routeKeys": {},
       "namedRegex": "^/_not\\-found(?:/)?$"
+    },
+    {
+      "page": "/server",
+      "regex": "^/server(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/server(?:/)?$"
     }
   ],
   "dataRoutes": [],

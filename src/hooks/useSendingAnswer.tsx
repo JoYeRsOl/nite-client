@@ -1,4 +1,4 @@
-import { socket } from 'app/socket';
+import { socket } from '@/common';
 import { useCallback } from 'react';
 
 export function useSendingAnswer(props: { peerConnection?: RTCPeerConnection, roomName?: string }) {

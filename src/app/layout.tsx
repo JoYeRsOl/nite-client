@@ -1,5 +1,5 @@
 import React from "react"
-import styles from '../styles/primary.module.css'
+import styles from '@/styles/primary.module.css'
 
 export default function RootLayout({
     children,

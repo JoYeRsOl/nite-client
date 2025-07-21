@@ -1,8 +1,8 @@
 'use client'
 
-import { RoomProperties } from "components/room-properies";
-import Link from "next/link";
 import React, { useState } from "react";
+import Link from "next/link";
+import { RoomProperties } from "@/components";
 
 export default function Page() {
     const [roomName, setRoomName] = useState<string>('')
